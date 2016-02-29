@@ -1,0 +1,30 @@
+{% extends "adminbase.html" %}
+{% block title %}Ping Targets{% endblock %}
+{% block header %}Ping Targets{% endblock %}
+
+{% block admincontrols %}
+	<a href="/admin/pingtargets/new" class="btn btn-primary">New Target</a>
+{% endblock %}
+
+{% block main %}
+<table class="table table-bordered table-striped table-hover tablesorter">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Group</th>
+			<th>Can Ping</th>
+            <th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for target in targets %}
+		<tr>
+			<td>{{ target.id }}</td>
+			<td>{{ target.get_group().name }}</td>
+			<td>{{ target.get_target_representation() }}</td>
+			<td></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

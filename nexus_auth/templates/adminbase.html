@@ -1,0 +1,26 @@
+{% extends "core.html" %}
+{% block content %}
+<div class="row">
+	<div class="col-md-3"><br />
+		<div class="list-group">
+			<a href="/admin" class="list-group-item{% if request.endpoint == "admin" %} active{% endif %}">Admin Home</a>
+			<a href="/admin/groups" class="list-group-item{% if request.path[7:13] == "groups" %} active{% endif %}">Groups</a>
+			<a href="/admin/groupcategories" class="list-group-item{% if request.path[7:22] == "groupcategories" %} active{% endif %}">Group Categories</a>
+			<a href="/admin/permissions" class="list-group-item{% if request.path[7:18] == "permissions" %} active{% endif %}">Group Permissions</a>
+			<a href="/admin/pending" class="list-group-item{% if request.path[7:14] == "pending" %} active{% endif %}">Pending Group Apps</a>
+			<a href="/admin/corpapirules" class="list-group-item{% if request.path[7:19] == "corpapirules" %} active{% endif %}">Corp Api Rules</a>
+			<a href="/admin/pingtargets" class="list-group-item{% if request.path[7:18] == "pingtargets" %} active{% endif %}">Ping Targets</a>
+			<a href="/admin/pingservers" class="list-group-item{% if request.path[7:18] == "pingservers" %} active{% endif %}">Ping Servers</a>
+			<a href="/admin/jabber" class="list-group-item{% if request.path[7:13] == "jabber" %} active{% endif %}">Jabber</a>
+		</div>
+		<br />
+		{% block admincontrols %}
+		{% endblock %}
+	</div>
+	<div class="col-md-9">
+		<h1>{% block header %}{% endblock %}</h1>
+		{% block main %}
+		{% endblock %}
+	</div>
+</div>
+{% endblock %}

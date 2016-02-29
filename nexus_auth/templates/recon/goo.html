@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Moon Goo{% endblock %}
+{% block header %}Moon Goo: {{ moon.name }}{% endblock %}
+
+{% block breadcrumbs %}
+        <ul class="breadcrumb">
+                <li><a href="/recon/regions">Universe</a></li>
+                <li><a href="/recon/region/{{ moon.system.region.id }}">{{ moon.system.region.name }}</a></li>
+                <li><a href="/recon/constellation/{{ moon.system.constellation.id }}">{{ moon.system.constellation.name }}</a></li>
+                <li><a href="/recon/system/{{ moon.system.id }}">{{ moon.system.name }}</a></li>
+                <li><a href="/recon/moon/{{ moon.id }}">{{ moon.name }}</a></li>
+                <li class="active">Moon Goo</li>
+        </ul>
+{% endblock %}
+
+{% block main %}
+<div class="panel panel-primary">
+	<div class="panel-body" style="padding-bottom:0px;">
+		<form method="POST">
+		<div class="col-md-3">
+			<h5>Goo 1</h5>
+			<div class="form-group">
+				<select class="form-control" id="goo1" name="goo1">
+					<option{% if not moon.goo_1 %} selected{% endif %}>Unscanned</option>
+					<option value="0"{% if moon.goo_1 == "Empty" %} selected{% endif %}>Empty</option>
+					<option>----------</option>
+					{% for type in gootypes %}
+					<option value="{{ type.id }}"{% if moon.goo_1 == type.id %} selected{% endif %}>{{ type.name }}</option>
+					{% endfor %}
+				</select>
+			</div>
+		</div>
+		<div class="col-md-3">
+                        <h5>Goo 2</h5>
+                        <div class="form-group">
+                                <select class="form-control" id="goo2" name="goo2">
+					<option{% if not moon.goo_2 %} selected {% endif %}>Unscanned</option>
+                                        <option value="0"{% if moon.goo_2 == "Empty" %} selected{% endif %}>Empty</option>
+					<option>----------</option>
+                                        {% for type in gootypes %}
+                                        <option value="{{ type.id }}"{% if moon.goo_2 == type.id %} selected{% endif %}>{{ type.name }}</option>
+                                        {% endfor %}
+                                </select>
+                        </div>
+		</div>
+		<div class="col-md-3">
+                        <h5>Goo 3</h5>
+                        <div class="form-group">
+                                <select class="form-control" id="goo3" name="goo3">
+					<option{% if not moon.goo_3 %} selected{% endif %}>Unscanned</option>
+                                        <option value="0"{% if moon.goo_3 == "Empty" %} selected{% endif %}>Empty</option>
+                                        <option>----------</option>
+                                        {% for type in gootypes %}
+                                        <option value="{{ type.id }}"{% if moon.goo_3 == type.id %} selected{% endif %}>{{ type.name }}</option>
+                                        {% endfor %}
+                                </select>
+                        </div>
+		</div>
+		<div class="col-md-3">
+                        <h5>Goo 4</h5>
+                        <div class="form-group">
+                                <select class="form-control" id="goo4" name="goo4">
+					<option{% if not moon.goo_4 %} selected{% endif %}>Unscanned</option>
+                                        <option value="0"{% if moon.goo_4 == "Empty" %} selected{% endif %}>Empty</option>
+                                        <option>----------</option>
+                                        {% for type in gootypes %}
+                                        <option value="{{ type.id }}"{% if moon.goo_4 == type.id %} selected{% endif %}>{{ type.name }}</option>
+                                        {% endfor %}
+                                </select>
+                        </div>
+		</div>
+		<div class="row">
+			<button type="submit" class="btn btn-primary btn-block">Save</button>
+		</div>
+	</form>
+	</div>
+</div>
+{% endblock %}

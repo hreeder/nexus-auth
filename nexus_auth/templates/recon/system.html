@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}{{ system.name }}{% endblock %}
+{% block header %}System: {{ system.name }}{% endblock %}
+
+{% block breadcrumbs %}
+        <ul class="breadcrumb">
+                <li><a href="/recon/regions">Universe</a></li>
+                <li><a href="/recon/region/{{ system.region.id }}">{{ system.region.name }}</a></li>
+                <li><a href="/recon/constellation/{{ system.constellation.id }}">{{ system.constellation.name }}</a></li>
+		<li class="active">{{ system.name }}</li>
+        </ul>
+{% endblock %}
+
+{% block main %}
+	<ul>
+		<li><b>Security</b>: {{ system.security|round(2) }}</li>
+	</ul>
+	<ul class="nav nav-tabs" style="margin-bottom: 15px;">
+		<li class="active"><a href="#celestials" data-toggle="tab">Celestials</a></li>
+	</ul>
+	<div id="tabContainer" class="tab-content">
+		<div class="tab-pane fade active in" id="celestials">
+			<table class="table table-bordered table-hover">
+				<thead>
+					<tr>
+						<th>Celestial</th>
+						<th>POS</th>
+						<th>Goo 1</th>
+						<th>Goo 2</th>
+						<th>Goo 3</th>
+						<th>Goo 4</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for celestial in system.celestials %}
+						{% if celestial.groupID != 8 %}
+						<tr>
+							{% if celestial.groupID == 7 %}
+								<th colspan="6" style="background-color: #333">{{ celestial.name }}</th>
+							{% endif %}
+						</tr>
+						{% else %}
+						<tr>
+							<td>
+								<a href="/recon/moon/{{ celestial.id }}">{{ celestial.name }}</a>
+								<span class="pull-right">
+									<a href="/recon/moon/{{ celestial.id }}/pos" class="btn btn-xs btn-primary">Add/Edit POS</a>
+									<a href="/recon/moon/{{ celestial.id }}/goo" class="btn btn-xs btn-info">Edit Goo</a>
+								</span>
+							</td>
+							<td>
+							{% if celestial.pos %}
+								{% if celestial.pos.corp %}
+									{% if celestial.pos.corp.alliance %}
+										[{{ celestial.pos.corp.ticker }}] &lt;{{ celestial.pos.corp.alliance.ticker }}&gt;
+									{% else %}
+										[{{ celestial.pos.corp.ticker }}]
+									{% endif %}
+								{% else %}
+									[{{ celestial.pos.corp_ticker }}]
+								{% endif %}
+								 {{ celestial.pos.tower_typeid|display_pos }}
+							{% else %}
+								-
+							{% endif %}	
+							</td>
+							<td>{% if celestial.goo_1 %}{{ celestial.goo_1|itemid2name }}{% endif %}</td>
+							<td>{% if celestial.goo_2 %}{{ celestial.goo_2|itemid2name }}{% endif %}</td>
+							<td>{% if celestial.goo_3 %}{{ celestial.goo_3|itemid2name }}{% endif %}</td>
+							<td>{% if celestial.goo_4 %}{{ celestial.goo_4|itemid2name }}{% endif %}</td>
+						</tr>
+						{% endif %}
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+{% endblock %}

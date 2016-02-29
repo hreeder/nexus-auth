@@ -1,0 +1,32 @@
+{% extends "adminbase.html" %}
+{% block title %}Permissions{% endblock %}
+{% block header %}Permissions{% endblock %}
+
+{% block admincontrols %}
+<a href="/admin/permissions/new" class="btn btn-primary">New Permission</a>
+{% endblock %}
+
+{% block main %}
+<table class="table table-bordered table-striped table-hover tablesorter">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Group</th>
+			<th>Permission</th>
+			<th>Active</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for permission in permissions %}
+		<tr>
+			<td>{{ permission.id }}</td>
+			<td>{{ permission.group.name }}</td>
+			<td>{{ permission.permission }}</td>
+			<td>{{ permission.is_active() }}</td>
+			<td><a href="/admin/permissions/delete/{{ permission.id }}" class="btn btn-xs btn-danger">Delete</a></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

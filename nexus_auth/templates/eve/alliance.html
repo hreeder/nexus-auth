@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{{ alliance.name }}{% endblock %}
+{% block header %}{{ alliance.name }}{% endblock %}
+
+{% block main %}
+<h4>Corporations</h4>
+<table class="table tablesorter table-bordered table-striped table-hover">
+	<thead>
+		<tr>
+			<th>Corporation</th>
+			<th>Members</th>
+			<th>Known Characters</th>
+			<th>API Coverage</th>
+			<!--<th>Corp Keys</th>-->
+		</tr>
+	</thead>
+	<tbody>
+		{% for corp in alliance.corps %}
+		<tr>
+			<td><a href="/eve/corp/{{ corp.id }}">{{ corp.name }}</a></td>
+			<td>{{ corp.memberCount }}</td>
+			<td>{{ corp.characters.all()|length }}</td>
+			<td>{{ corp.apiCoverage }} %</td>
+			<!--<td></td>-->
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

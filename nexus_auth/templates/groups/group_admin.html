@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Group Admin{% endblock %}
+{% block header %}{{ group.name }} - Admin{% endblock %}
+
+{% block main %}
+	<p><i>Application URL: <a href="/groups/apply/{{ group.id }}">http://nexus.negativewaves.co.uk/groups/apply/{{ group.id }}</a></i></p>
+	{% if pending %}
+		<h4>Pending Memberships</h4>
+		<table class="table table-bordered table-striped table-hover tablesorter">
+			<thead>
+				<tr>
+					<th>User</th>
+					<th>Corp</th>
+					<th>Alliance</th>
+					<th>Reason</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for app in pending %}
+					<tr>
+						{% with user = app.getUser() %}{% if user %}{% with char = user.get_main() %}
+						<td><a href="/profile/{{ user.uid }}">{{ user.username }}</a></td>
+						<td>{% if char %}{{ char.corp.name }}{% else %}None{% endif %}</td>
+						<td>{% if char and char.corp.allianceId %}{{ char.corp.alliance.name }}{% else %}None{% endif %}</td>
+						<td>{{ app.app_text|nl2br }}</td>
+						<td>
+							<a href="/groups/admin/accept/{{ app.id }}" class="btn btn-primary btn-xs">Accept</a>
+							<a href="/groups/admin/reject/{{ app.id }}" class="btn btn-danger btn-xs">Reject</a>
+						</td>
+						{% endwith %}{% else %}
+						<tr><td>Bugged User: User ID - {{ app.member_id }}</td></tr>
+						{% endif %}
+						{% endwith %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<i class="text-muted">No pending memberships</i>
+	{% endif %}
+	<br />
+	<h4>Members ({{ members|length }})</h4>
+	<table class="table table-bordered table-striped table-hover tablesorter">
+		<thead>
+			<tr>
+				<th>Member</th>
+				<th>Corp</th>
+				<th>Alliance</th>
+				<th>Role</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for member in members %}
+				{% with user = member.getUser() %}{% if user %}{% with char = user.get_main() %}
+				<tr>
+					<td>{{ user.username }}</td>
+					<td>{% if char %}{{ char.corp.name }}{% else %}None{% endif %}</td>
+					<td>{% if char and char.corp.allianceId %}{{ char.corp.alliance.name }}{% else %}None{% endif %}</td>
+					<td>
+						{% if member.group_admin %}
+							Admin
+						{% else %}
+							Member
+						{% endif %}
+					</td>
+					<td>
+						<div class="btn-group">
+							<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></button>
+							<ul class="dropdown-menu">
+								<li><a href="/groups/admin/kick/{{ member.id }}">Kick</a></li>
+								{% if current_user.is_admin() %}
+									{% if member.group_admin %}
+										<li><a href="/groups/admin/demote/{{ member.id }}">Demote from Admin</a></li>
+									{% else %}
+										<li><a href="/groups/admin/promote/{{ member.id }}">Promote to Admin</a></li>
+									{% endif %}
+								{% endif %}
+							</ul>
+						</div>
+					</td>
+				</tr>
+				{% endwith %}{% else %}
+				<tr><td>Bugged User - UserID: {{ member.member_id }}</td></tr>
+				{% endif %}
+				{% endwith %}
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}

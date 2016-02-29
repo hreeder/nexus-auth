@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Mumble Op List{% endblock %}
+{% block header %}
+	Mumble Temporary Operations
+	<a class="pull-right btn btn-primary" href="/services/mumble/ops/new">New Op</a>
+{% endblock %}
+
+{% block main %}
+<table class="table table-bordered table-striped table-hover tablesorter">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Owner</th>
+			<th>Op Name</th>
+			<th>URL</th>
+			<th># Users</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for op in ops %}
+		<tr>
+			<td rowspan="2">{{ op.id }}</td>
+			<td rowspan="2">{{ op.get_owner().username }}</td>
+			<td rowspan="2">{{ op.name }}</td>
+			<td><a href="/services/mumble/op/{{ op.url_segment }}">http://nexus.negativewaves.co.uk/services/mumble/op/{{ op.url_segment }}</a></td>
+			<td rowspan="2">{{ op.get_registered_users()|length }}</td>
+			<td rowspan="2"><a href="/services/mumble/ops/expire/{{ op.id }}" class="btn btn-xs btn-danger">Expire</a></td>
+		</tr>
+		<tr>
+			<td><b>Started</b>: {{ op.started }} | <b>Expires</b>: {{ op.expires }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

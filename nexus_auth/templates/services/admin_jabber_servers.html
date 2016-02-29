@@ -1,0 +1,33 @@
+{% extends "adminbase.html" %}
+{% block title %}Jabber Servers{% endblock %}
+{% block header %}Jabber Servers{% endblock %}
+
+{% block main %}
+<table class="table tablesorter table-bordered table-striped table-hover">
+	<thead>
+		<tr>
+			<th>Server</th>
+			<th>Host</th>
+			<th>Online User Count</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for server in servers %}
+		<tr>
+			<td>{{ server.name }}</td>
+			<td>{{ server.server }}</td>
+			<td><a href="/admin/jabber/{{ server.server }}/online">{{ server.get_online_users_count() }}</a></td>
+			<td>
+				<div class="btn-group">
+					<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></button>
+					<ul class="dropdown-menu">
+						<li><a href="/admin/jabber/{{ server.server }}/online">Online Users</a></li>
+					</ul>
+				</div>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}{{ user.username }}{% endblock %}
+{% block header %}Profile: {{ user.username }}{% endblock %}
+
+{% block main %}
+<section id="info">
+	<ul>
+		<li><b>Username</b>: {{ user.username }}</li>
+		<li><b>E-Mail Address</b>: {{ user.email }}</li>
+		<li><b>Groups</b>: {{ groups|join(", ") }}</li>
+	</ul>
+</section>
+
+<section id="accounts">
+	<h3>Service Accounts</h3>
+	<table class="table table-bordered table-hover table-striped">
+		<thead>
+			<tr>
+				<th>Type</th>
+				<th>User ID</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for account in jids %}
+			<tr>
+				<td>Jabber</td>
+				<td>{{ account.jid }}</td>
+				<td>{% if account.status %}Active{% else %}Disabled{% endif %}</td>
+			</tr>
+			{% endfor %}
+			{% if mumble %}
+			<tr>
+				<td>Mumble</td>
+				<td>{{ mumble.username }}</td>
+				<td>Active: {{ mumble.display }}</td>
+			</tr>
+			{% endif %}
+		</tbody>
+	</table>
+</section>
+
+<section id="keys">
+	{% with keys = user.get_api_keys() %}
+	{% if keys %}
+	<h3>Api Keys</h3>
+	<table class="table table-bordered table-hover table-striped tablesorter">
+		<thead>
+			<tr>
+				<th>Key ID</th>
+				<th>VCode</th>
+				<th>Description</th>
+				<th>Type</th>
+				<th>Status</th>
+				<th>Access Mask</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for key in keys %}
+			<tr>
+				<td>{{ key.id }}</td>
+				<td>{{ key.get_obscure_vcode() }}</td>
+				<td>{{ key.desc }}</td>
+				<td>{{ key.get_type() }}</td>
+				<td>{{ key.get_status() }}</td>
+				<td>{{ key.accessMask }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% else %}
+	<i>This user has no API Keys</i>
+	{% endif %}
+	{% endwith %}
+</section>
+
+<section id="characters">
+	<h3>Characters</h3>
+	{% with toons = user.get_all_characters() %}
+	{% if toons %}
+	<table class="table table-bordered table-hover table-striped tablesorter">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Corp</th>
+				<th>Alliance</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for toon in toons %}
+			<tr>
+				<td>{{ toon.name }}</td>
+				<td>{{ toon.corp.name }}</td>
+				<td>{{ toon.corp.alliance.name }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% else %}
+	<i>This user has no Characters</i>
+	{% endif %}
+	{% endwith %}
+</section>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Moon{% endblock %}
+{% block header %}Moon: {{ moon.name }}{% endblock %}
+
+{% block breadcrumbs %}
+        <ul class="breadcrumb">
+                <li><a href="/recon/regions">Universe</a></li>
+                <li><a href="/recon/region/{{ moon.system.region.id }}">{{ moon.system.region.name }}</a></li>
+                <li><a href="/recon/constellation/{{ moon.system.constellation.id }}">{{ moon.system.constellation.name }}</a></li>
+                <li><a href="/recon/system/{{ moon.system.id }}">{{ moon.system.name }}</a></li>
+                <li class="active">{{ moon.name }}</li>
+        </ul>
+{% endblock %}
+
+{% block main %}
+<div class="btn-group btn-group-justified">
+        <a href="/recon/moon/{{ moon.id }}/pos" class="btn btn-default">POS</a>
+	<a href="/recon/moon/{{ moon.id }}/goo" class="btn btn-default">Goo</a>
+</div>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}Timers{% endblock %}
+{% block header %}Timers{% endblock %}
+{% block extracss %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.datetimepicker.min.css') }}" />
+{% endblock %}
+
+{% block main %}
+	<table class="table table-hover table-bordered table-striped">
+		<thead>
+		<tr>
+			<th>System</th>
+			<th>Planet</th>
+			<th>Moon</th>
+			<th>Owner</th>
+			<th>Time</th>
+			<th>Remaining</th>
+			<th>Notes</th>
+			<th>Author</th>
+			<th>Delete</th>
+		</tr>
+		</thead>
+		<tbody>
+		{% for timer in timers %}
+		<tr id="timer-{{ timer.id }}">
+			<td><a href="http://evemaps.dotlan.net/search?q={{ timer.system }}">{{ timer.system }}</a></td>
+			<td>{{ timer.planet }}</td>
+			<td>{{ timer.moon }}</td>
+			<td><a href="http://evemaps.dotlan.net/search?q={{ timer.owner }}">{{ timer.owner }}</a></td>
+			<td>{{ timer.time }} UTC</td>
+			<td><span id="remaining.{{ timer.id }}"></span></td>
+			<td style="word-break:break-all;">{{ timer.notes }}</td>
+			<td>{{ timer.get_author().username }}</td>
+			<td>{% if current_user.has_role('edit-timer') %}<a class="btn btn-danger" href="/timers/delete/{{ timer.id }}">Delete</a>{% endif %}</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+	{% if current_user.has_role('create-timer') %}
+        <div class="row">
+        <form class="well custom-form collapse-group" name="addtimer" action="/timers/new" method="post">
+                <h2 data-toggle="collapse" data-target="#inner">Create Timer</h2>
+                <div class="control-group collapse" id="inner">
+                        <div class="controls">
+                                <h3>Basic Details:</h3>
+                                <div class="form-group row">
+                                <label class="col-md-2" for="system">System</label><div class="col-md-6"><input class="form-control" id="system" type="text" name="system" placeholder="Jita, PR-, J1520..." /></div>
+                                </div>
+                                <div class="form-group row">
+                                <label class="col-md-2" for="planet">Planet</label><div class="col-md-6"><input class="form-control" id="planet" type="text" name="planet" placeholder="II, VII, IX..." /></div>
+                                </div>
+                                <div class="form-group row">
+                                <label class="col-md-2" for="moon">Moon</label><div class="col-md-6"><input class="form-control" id="moon" type="text" name="moon" placeholder="1, 7, 42..." />
+                                </div></div>
+                                <div class="form-group row">
+                                <label class="col-md-2" for="owner">Owner</label><div class="col-md-6"><input class="form-control" id="owner" type="text" name="owner" placeholder="BORT, TEST, PL..." /></div>
+                                </div>
+                                <div class="form-group row">
+                                <label class="col-md-2" for="notes">Notes</label><div class="col-md-6"><input class="form-control" id="owner" type="text" name="notes" placeholder="POS? IHUB? Defenses?..."/></div>
+                                </div>
+                                <h3>Pick one time value:</h3>
+                                <div class="form-group row">
+                                <label class="col-md-2" for="time">Time (EVE)</label><div class="col-md-6"><input class="form-control" id="time" type="text" name="time" placeholder="Click for time picker" /></div>
+                                </div>
+                                <div class="form-group row">
+                                <label class="col-md-2" for="reltime">Timer</label><div class="col-md-6"><input class="form-control" id="reltime" type="text" name="reltime" placeholder="7D 30H 15S" /></div>
+                                </div>
+                        </div>
+                        <div class="controls">
+                                <br>
+                                <div class="col-md-offset-2 col-md-6">
+                                        <button type="submit" class="btn btn-primary" value="submit" />Submit</button>
+                                </div>
+				<div class="clearfix"></div>
+                        </div>
+        </form>
+        </div class="row">
+	{% endif %}
+{% endblock %}
+{% block endjs %}
+    <script src="{{ url_for('static', filename='js/countdown.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/mustache.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.tinysort.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.datetimepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.datetimepicker.eve.min.js') }}"></script>
+	<script>
+		var timers = {};
+		var localOffset = new Date().getTimezoneOffset() * 60000;
+		{% for timer in timers %}
+		    timers["{{ timer.id }}"] = countdown(
+			function(ts) {
+				var style = "<font>";
+				if (new Date({{ timer.to_unix_time() * 1000 }}) < new Date()) {
+					var style="<font color='red'>"
+				}
+				document.getElementById("remaining.{{ timer.id }}").innerHTML = style+ts.days+"D "+ts.hours+"H "+ts.minutes+"M "+ts.seconds+"S </font>";
+			},
+			new Date({{ timer.to_unix_time() * 1000 }}),
+			countdown.DAYS|countdown.HOURS|countdown.MINUTES|countdown.SECONDS
+                    );
+
+//			$('#timer-{{ timer.id }}').popover({
+//				'content': "<b>Author</b>: {{ timer.get_author().username }}",
+//				'trigger': "hover",
+//				'html': true,
+//				'placement': "bottom"
+//			});
+		{% endfor %}
+
+		// Date/Time picker
+		$(document).ready(function() { $('#time').datetimepicker({language: 'iso-eve'}); });
+		// Autocomplete
+//		$( "#system" ).autocomplete({
+//			source: "/timers/systems",
+//			minLength: 2
+//		});
+
+	</script>
+{% endblock %}

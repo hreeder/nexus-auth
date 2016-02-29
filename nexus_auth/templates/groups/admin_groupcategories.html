@@ -1,0 +1,25 @@
+{% extends "groups/admin_groupcategories_base.html" %}
+{% block header %}All Group Categories{% endblock %}
+
+{% block main %}
+<table class="table table-bordered table-striped table-hover tablesorter">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Order</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for category in categories %}
+		<tr>
+			<td>{{ category.id }}</td>
+			<td>{{ category.name }}</td>
+			<td>{{ category.ordernumber }}</td>
+			<td></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

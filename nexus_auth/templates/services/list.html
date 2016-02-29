@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Services{% endblock %}
+{% block header %}Available Services{% endblock %}
+
+{% block main %}
+<div class="row">
+	<div class="col-md-6">
+		<h3>Jabber</h3>
+		{% for server in jabberservers %}
+		<div class="well">
+			<div class="row">
+				{% with account = server.check_user(safename) %}
+				<h4>{{ server.name }} <span class="pull-right">{% if account %}Active{% else %}No Account{% endif %}</span></h4>
+				<p>{{ server.server }} {% if account %}<a class="pull-right btn btn-warning" href="/services/jabber/reset/{{ server.server }}">Reset Password</a>{% else %}<a class="pull-right btn btn-primary" href="/services/jabber/create/{{ server.server }}">Create</a>{% endif %}</p>
+				<p>{{ safename }}@{{ server.server }}</p>
+				{% endwith %}
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	<div class="col-md-6">
+		<h3>Mumble</h3>
+        <div class="well">
+            <div class="row">
+                <h4>SIGH.Mumble <span class="pull-right">{% if mumbleservice %}Active{% else %}No Account{% endif %}</span></h4>
+                <p>Server: mumble.negativewaves.co.uk {% if mumbleservice %}<a class="pull-right btn btn-warning" href="/services/mumble/reset">Reset Password</a>{% else %}<a class="pull-right btn btn-primary" href="/services/mumble/create">Create</a>{% endif %}</p>
+		<p>Port: 64738</p>
+                <p>Username: {{ current_user.get_mumblename() }}</p>
+                <p>Display Name: {{ mumblename }}</p>
+            </div>
+        </div>
+	</div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,30 @@
+{% extends "adminbase.html" %}
+{% block title %}Ping Servers{% endblock %}
+{% block header %}Ping Servers{% endblock %}
+
+{% block admincontrols %}
+	<a href="/admin/pingservers/new" class="btn btn-primary">New Server</a>
+{% endblock %}
+
+{% block main %}
+<table class="table table-bordered table-striped table-hover tablesorter">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Display Name</th>
+			<th>Servers</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for server in servers %}
+		<tr>
+			<td>{{ server.id }}</td>
+            <td>{{ server.display_name }}</td>
+            <td>{{ server.servers }}</td>
+			<td></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

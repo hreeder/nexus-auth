@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Ping{% endblock %}
+{% block header %}Ping{% endblock %}
+
+{% block main %}
+<form class="form-horizontal" method="POST" action>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">1. Broadcast Content</h3>
+                </div>
+                <div class="panel-body">
+                    <textarea class="form-control" rows="5" name="broadcastcontent"></textarea>
+                </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">2. Important Broadcast</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="checkbox"><label><input type="checkbox" name="important" value="important"> <img src="/static/img/frogsiren.gif"> ITS HAPPENING! <img src="/static/img/frogsiren.gif"></label></div>
+                    <i class="text-warning">Abuse of this function will piss off the sysadmins. This could cause you to lose services access. Don't abuse this function.</i>
+		    <br />
+		    <div class="checkbox"><label><input type="checkbox" id="fleet" name="fleet" value="fleet"> Fleet</label></div>
+		    <div class="form-group row">
+			<div class="col-md-4"><input type="text" class="form-control" name="fc" id="fc" placeholder="FC Character" disabled></div>
+			<div class="col-md-4"><input type="text" class="form-control" name="flt-name" id="flt-name" placeholder="Fleet Name" disabled></div>
+			<div class="col-md-4"><input type="text" class="form-control" name="formup" id="formup" placeholder="Formup System" disabled></div>
+		    </div>
+		    <div class="form-group row">
+			<div class="col-md-8"><input type="text" class="form-control" name="doctrine" id="doctrine" placeholder="Doctrine" disabled></div>
+			<div class="col-md-4"><input type="text" class="form-control" name="mumble" id="mumble" placeholder="Mumble Channel" disabled></div>
+		    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">4. Send Broadcast</button>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">3. Select Groups</h3>
+                </div>
+                <div class="panel-body" id="groups">
+		    {% for column in targets|slice(2) %}
+		    <div class="col-md-6">
+                        {% for target in column %}
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="target" value="{{ target[0] }}"> {{ target[1].name }}
+                            </label>
+                        </div>
+			{% endfor %}
+                    </div>
+		    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block endjs %}
+<script>
+	$(document).ready(function() {
+		$('#fleet').change(function() {
+			if ($(this).is(":checked")) {
+				$('#fc').prop('disabled', false);
+                                $('#flt-name').prop('disabled', false);
+                                $('#formup').prop('disabled', false);
+                                $('#doctrine').prop('disabled', false);
+                                $('#mumble').prop('disabled', false);
+			} else {
+				$('#fc').prop('disabled', true);
+                                $('#flt-name').prop('disabled', true);
+                                $('#formup').prop('disabled', true);
+                                $('#doctrine').prop('disabled', true);
+                                $('#mumble').prop('disabled', true);
+			}
+		});
+	});
+</script>
+{% endblock %}

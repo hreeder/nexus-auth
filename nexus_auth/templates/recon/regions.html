@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Regions{% endblock %}
+{% block header %}Regions{% endblock %}
+
+{% block breadcrumbs %}
+	<ul class="breadcrumb">
+		<li class="active">Universe</li>
+	</ul>
+{% endblock %}
+
+{% block main %}
+	{% for column in regions|slice(4) %}
+		<div class="col-md-3">
+			<div class="list-group">
+				{% for region in column %}
+					<a href="/recon/region/{{ region.id }}" class="list-group-item">{{ region.name }}</a>
+				{% endfor %}
+			</div>
+		</div>
+	{% endfor %}
+{% endblock %}

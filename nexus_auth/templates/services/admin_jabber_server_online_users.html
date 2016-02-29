@@ -1,0 +1,26 @@
+{% extends "adminbase.html" %}
+{% block title %}Online Users{% endblock %}
+{% block header %}{{ server }}: Online Users ({{ online|length }}){% endblock %}
+
+{% block main %}
+<table class="table tablesorter table-bordered table-striped table-hover">
+	<thead>
+		<tr>
+			<th>User</th>
+			<th>Host</th>
+			<th>Resource</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for user in online %}
+		<tr>
+			<td>{{ user.username }}</td>
+			<td>{{ server }}</td>
+			<td>{{ user.resource }}</td>
+			<td></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

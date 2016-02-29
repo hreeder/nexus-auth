@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Mumble Temp Account{% endblock %}
+{% block header %}Account Created{% endblock %}
+
+{% block main %}
+<h4>Your account has succesfully been created, you may now connect by <a href="mumble://{{ account.username }}:{{ password }}@{{ config.MUMBLE_SERVER }}:{{ config.MUMBLE_PORT }}/?version=1.2.0">clicking here</a></h4>
+<br />
+If that fails, your account details are as follows:
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+		<table class="table">
+			<tr>
+				<th>Username</th>
+				<td>{{ account.username }}</td>
+			</tr>
+			<tr>
+				<th>Password</th>
+				<td>{{ password }}</td>
+			</tr>
+			<tr>
+				<th>Server</th>
+				<td>{{ config.MUMBLE_SERVER }}</td>
+			</tr>
+			<tr>
+				<th>Port</th>
+				<td>{{ config.MUMBLE_PORT }}</td>
+			</tr>
+		</table>
+	</div>
+</div>
+{% endblock %}

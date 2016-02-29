@@ -1,0 +1,71 @@
+DEBUG = True
+SECRET_KEY = "generate-your-own"
+
+SQLALCHEMY_DATABASE_URI = "mysql://nexus:nexus@localhost/nexus"
+SQLALCHEMY_POOL_SIZE = 50
+SQLALCHEMY_POOL_RECYCLE = 3600
+
+PHPBB_DB = {
+	'user': 'nexus',
+	'pass': 'nexus',
+	'host': 'localhost',
+	'name': 'phpbb'
+}
+
+MEMCACHE = ['localhost']
+
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+
+ALLIANCE_ID = 99004547
+ALLIANCE_API_GROUP_ID = 12
+ALLIANCE_SERVICES_GROUP_ID = 11
+
+PROSODY = {
+	'user': 'pingbot@bots.example.com',
+	'pass': 'pingbot_user_password',
+	'endpoint': 'http://127.0.0.1:5280/admin_rest/',
+	
+	'example.com': {
+		'name': 'Alliance Jabber',
+		'announce': ['example.com'],
+		'required': 11,
+		'purge': True
+	},
+
+	'admin.example.com' : {
+		'name': 'SysAdmin Jabber',
+		'announce': ['admin.example.com'],
+		'required': 1,
+		'purge': True
+	},
+
+	'bots.example.com' : {
+		'name': 'Bot Accounts',
+		'announce': ['bots.example.com'],
+		'required': 1,
+		'purge': False
+	}
+}
+
+MUMBLE_SERVER = "mumble.example.com"
+MUMBLE_PORT = 64738
+
+ZKB = {
+	'host': 'localhost',
+	'name': 'zkb',
+	'user': 'nexus',
+	'pass': 'nexus'
+}
+
+SDE = {
+	'host': 'localhost',
+	'name': 'sde',
+	'user': 'nexus',
+	'pass': 'nexus'
+}
+
+LOGBOT = {
+	'url': 'http://localhost:12233/sysop-message/',
+	'key': 'PraiseGabeNewell'
+}

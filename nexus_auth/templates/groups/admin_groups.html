@@ -1,0 +1,40 @@
+{% extends "groups/admin_groups_base.html" %}
+{% block header %}All Groups{% endblock %}
+
+{% block main %}
+<table class="table table-bordered table-striped table-hover tablesorter">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Category</th>
+			<th># Members</th>
+			<th>Open</th>
+			<th>Visible</th>
+			<th>Leavable</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for group in groups %}
+		<tr>
+			<td>{{ group.id }}</td>
+			<td>{{ group.name }}</td>
+			<td>{{ group.category.name }}</td>
+			<td>{{ group.getMembers()|length }}</td>
+			<td>{{ group.open }}</td>
+			<td>{{ group.visible }}</td>
+			<td>{{ group.leavable }}</td>
+			<td>
+				<div class="btn-group">
+					<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></button>
+					<ul class="dropdown-menu">
+						<li><a href="/groups/admin/{{ group.id }}">Group Admin</a></li>
+					</ul>
+				</div>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

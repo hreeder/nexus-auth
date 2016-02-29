@@ -1,0 +1,40 @@
+{% extends "adminbase.html" %}
+{% block title %}Ping Targets{% endblock %}
+{% block header %}Ping Targets{% endblock %}
+
+{% block admincontrols %}
+	<a href="/admin/pingservers/new" class="btn btn-primary">New Target</a>
+{% endblock %}
+
+{% block main %}
+<form class="form-horizontal" method="POST" action>
+    <div class="form-group">
+        <label class="control-label col-lg-2" for="parentgroup">Parent Group</label>
+        <div class="col-lg-10">
+            <select id="parentgroup" name="parentgroup" class="form-control">
+                {% for group in groups %}
+                <option value="{{ group.id }}">{{ group.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2" for="canping">Can Ping</label>
+        <div class="col-lg-10">
+            <select id="canping" name="canping" class="form-control">
+                {% for server in servers %}
+                <option value="svr-{{ server.id }}">{{ server.display_name }}</option>
+                {% endfor %}
+		{% for group in groups %}
+		<option value="grp-{{ group.id }}">{{ group.name }}</option>
+		{% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-2">
+            <input type="submit" class="btn btn-primary btn-block" value="Add Target">
+        </div>
+    </div>
+</form>
+{% endblock %}

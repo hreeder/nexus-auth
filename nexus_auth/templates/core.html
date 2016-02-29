@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/normalize.css') }}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/nexus.css') }}">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.1/css/font-awesome.css" rel="stylesheet">
+	{% block extracss %}
+	{% endblock %}
+	<title>{% block title %}{% endblock %} | Nexus</title>
+</head>
+<body>
+	{% include 'parts/navbar.html' %}
+	<div id="wrap">
+		<div id="main" class="container">
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+					<br />
+					{% for category, message in messages %}
+						<div class="alert alert-{% if category != "message" %}{{ category }}{% else %}danger{% endif %}">
+							<a class="close" type="button" data-dismiss="alert">&times;</a>
+							{{ message }}
+						</div>
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+			{% block content %}
+			{% endblock %}
+		</div>
+	</div>
+	<footer class="footer">
+		<hr>
+		<div class="container">
+			<p><small>Nexus Auth</small></p>
+			<p><small>&copy; Negative Waves 2014</small></p>
+		</div>
+	</footer>
+	<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.tablesorter.min.js') }}"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('.tablesorter').each(function(i){
+                $(this).tablesorter();
+            });
+        });
+    </script>
+	{% block endjs %}
+	{% endblock %}
+</body>
+</html>

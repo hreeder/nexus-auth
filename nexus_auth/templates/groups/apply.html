@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Apply to Group{% endblock %}
+{% block header %}Apply to Group - {{ group.name }}{% endblock %}
+
+{% block main %}
+<form class="form-horizontal" method="POST">
+	<div class="form-group">
+		<label for="reason" class="col-lg-2 control-label">Application Text</label>
+		<div class="col-lg-10">
+			<textarea class="form-control" name="reason" id="reason" rows="5"></textarea>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-lg-10 col-lg-offset-2">
+			<input type="submit" class="btn btn-primary btn-block" value="Apply">
+		</div>
+	</div>
+</form>
+{% endblock %}

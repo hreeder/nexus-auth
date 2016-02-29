@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ region.name }}{% endblock %}
+{% block header %}Region: {{ region.name }}{% endblock %}
+{% block extracss %}
+<style>
+    a.list-group-item:hover {
+        background-color: #222;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+        <ul class="breadcrumb">
+                <li><a href="/recon/regions">Universe</a></li>
+                <li class="active">{{ region.name }}</li>
+        </ul>
+{% endblock %}
+
+{% block main %}
+	{% for column in constellations|slice(4) %}
+		<div class="col-md-3">
+			{% for constellation in column %}
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h3 class="panel-title"><a href="/recon/constellation/{{ constellation.id }}">Constellation: {{ constellation.name }}</a></h3>
+					</div>
+					<div class="list-group">
+						{% for system in constellation.get_systems() %}
+						<a href="/recon/system/{{ system.id }}" class="list-group-item">{{ system.name }}</a>
+						{% endfor %}
+					</div>
+				</div>
+			{% endfor %}	
+		</div>
+	{% endfor %}
+{% endblock %}

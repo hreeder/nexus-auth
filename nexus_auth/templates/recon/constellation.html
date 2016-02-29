@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ constellation.name }}{% endblock %}
+{% block header %}Constellation: {{ constellation.name }}{% endblock %}
+
+{% block breadcrumbs %}
+        <ul class="breadcrumb">
+                <li><a href="/recon/regions">Universe</a></li>
+                <li><a href="/recon/region/{{ constellation.region.id }}">{{ constellation.region.name }}</a></li>
+                <li class="active">{{ constellation.name }}</li>
+        </ul>
+{% endblock %}
+
+{% block main %}
+<div class="btn-group btn-group-justified">
+	{% for system in constellation.get_systems() %}
+	<a href="/recon/system/{{ system.id }}" class="btn btn-default">{{ system.name }}</a>
+	{% endfor %}
+</div>
+{% endblock %}

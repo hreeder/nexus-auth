@@ -1,0 +1,27 @@
+body {
+	padding-top: 50px;
+}
+
+.navbar {
+	margin-bottom: 0px;
+}
+
+table a.btn {
+	text-decoration: none;
+}
+
+table a:not(.btn), .table a:not(.btn) {
+    text-decoration: none;
+}
+
+.bootstrap-datetimepicker-widget {
+	color: #222;
+}
+
+.bootstrap-datetimepicker-widget > ul > li > a, .bootstrap-datetimepicker-widget > ul > li > a:hover {
+	color: #222;
+}
+
+.breadcrumb {
+	margin-top: 1em;
+}

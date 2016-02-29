@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}New Temp Op{% endblock %}
+{% block header %}New Mumble Temporary Operation{% endblock %}
+
+{% block extracss %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.datetimepicker.min.css') }}" />
+{% endblock %}
+
+{% block main %}
+<form class="form-horizontal" action method="POST">
+        <div class="form-group">
+        <label class="control-label col-lg-2" for="name">Op Name</label>
+        <div class="col-lg-10">
+            <input class="form-control" name="name" id="name" type="text">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-lg-2" for="expiry">Link Expiry (EVE Time)</label>
+        <div class="col-lg-10">
+            <input class="form-control" name="expiry" type="text" id="expiry">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-2">
+            <input type="submit" value="Create Op" class="btn btn-block btn-primary">
+        </div>
+    </div<
+</form>
+{% endblock %}
+{% block endjs %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.datetimepicker.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.datetimepicker.eve.min.js') }}"></script>
+<script type="text/javascript">
+$(function() {
+    $('#expiry').datetimepicker({
+        language: 'iso-eve'
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ corp.name }}{% endblock %}
+{% block header %}{{ corp.name }}{% endblock %}
+
+{% block main %}
+<ul>
+	<li><b>Members</b>: {{ corp.memberCount }}</li>
+</ul>
+
+{% if current_user.can_view_corp(corp.id) %}
+	<h4>Registered Members</h4>
+	<table class="table table-bordered tablesorter table-hover table-striped">
+		<thead>
+			<tr>
+				<th>Character Name</th>
+				<th>Owner</th>
+				<th>Last Known Ship</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for toon in corp.characters %}
+			<tr>
+				<td>{{ toon.name }}</td>
+                                <td>{{ toon.get_owner().username }}</td>
+				<td>{{ toon.lastKnownShip|itemid2name }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endif %}
+{% endblock %}

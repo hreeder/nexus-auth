@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Available Groups{% endblock %}
+{% block header %}Available Groups{% endblock %}
+
+{% block main %}
+<i>Please note the following when applying to groups: A number of groups should only be applied to when you are asked to, and a number more require you to have specific information in the application text box when applying. <a href="http://forum.negativewaves.co.uk/viewtopic.php?f=22&t=74">These details are all on the forums.</a></i>
+{% for category in categories %}
+<h3>{{ category.name }}</h3>
+<table class="table table-bordered table-striped table-hover tablesorter">
+	<thead>
+		<tr>
+			<th class="col-sm-2">Name</th>
+			<th class="col-sm-7">Description</th>
+			<th class="col-sm-1">Status</th>
+			<th class="col-sm-2">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for group in category.groups %}
+			<tr>
+				<td>{{ group.name }}</td>
+				<td>{{ group.description }}</td>
+				<td>{% if group.id in current_user.get_group_ids() %}Member{% endif %}</td>
+				<td>
+                {% if current_user.is_admin() %}
+                    <a href="/groups/admin/{{ group.id }}" class="btn btn-info btn-xs">Admin</a>
+                {% endif %}
+
+                {% if group.id in current_user.get_group_ids() %}
+                        {% if group.leavable %}
+                            <a href="/groups/leave/{{ group.id }}" class="btn btn-danger btn-xs">Leave</a>
+                        {% endif %}
+				{% else %}
+                    {% if group.open %}
+                        <a href="/groups/join/{{ group.id }}" class="btn btn-primary btn-xs">Join</a>
+                    {% else %}
+                        <a href="/groups/apply/{{ group.id }}" class="btn btn-primary btn-xs">Apply</a>
+                    {% endif %}
+				{% endif %}
+				</td>
+			</tr>
+		{% endfor %}
+</table>
+{% endfor %}
+{% endblock %}

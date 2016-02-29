@@ -1,0 +1,40 @@
+{% extends "adminbase.html" %}
+{% block title %}Pending Applications{% endblock %}
+{% block header %}Pending Applications{% endblock %}
+
+{% block main %}
+	{% if apps %}
+		<h4>Pending Memberships</h4>
+		<table class="table table-bordered table-striped table-hover tablesorter">
+			<thead>
+				<tr>
+					<th>Group</th>
+					<th>User</th>
+					<th>Corp</th>
+					<th>Alliance</th>
+					<th>Reason</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for app in apps %}
+					<tr>
+						{% with user = app.getUser() %}{% with char = user.get_main() %}
+						<td>{{ app.group.name }}</td>
+						<td>{{ user.username }}</td>
+						<td>{% if char %}{{ char.corp.name }}{% else %}None{% endif %}</td>
+						<td>{% if char and char.corp.allianceId %}{{ char.corp.alliance.name }}{% else %}None{% endif %}</td>
+						<td>{{ app.app_text|nl2br }}</td>
+						<td>
+							<a href="/groups/admin/accept/{{ app.id }}" class="btn btn-primary btn-xs">Accept</a>
+							<a href="/groups/admin/reject/{{ app.id }}" class="btn btn-danger btn-xs">Reject</a>
+						</td>
+						{% endwith %}{% endwith %}
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<i class="text-muted">No pending memberships</i>
+	{% endif %}
+{% endblock %}

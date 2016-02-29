@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}POS{% endblock %}
+{% block header %}POS: {{ moon.name }}{% endblock %}
+
+{% block breadcrumbs %}
+	<ul class="breadcrumb">
+		<li><a href="/recon/regions">Universe</a></li>
+		<li><a href="/recon/region/{{ moon.system.region.id }}">{{ moon.system.region.name }}</a></li>
+		<li><a href="/recon/constellation/{{ moon.system.constellation.id }}">{{ moon.system.constellation.name }}</a></li>
+		<li><a href="/recon/system/{{ moon.system.id }}">{{ moon.system.name }}</a></li>
+		<li><a href="/recon/moon/{{ moon.id }}">{{ moon.name }}</a></li>
+		<li class="active">POS</li>
+	</ul>
+{% endblock %}
+
+{% block main %}
+	{% if moon.pos %}
+		<h3>{{ moon.pos.tower_typeid|itemid2name }}</h3>
+		<h5>Owned By: {% if moon.pos.corp %}{{ moon.pos.corp.name }}{% if moon.pos.corp.alliance %} of {{ moon.pos.corp.alliance.name }}{% else %} (No Alliance){% endif %}{% else %}{{ moon.pos.corp_ticker }} (Corp not in Nexus DB){% endif %}</h5>
+	{% else %}
+		<h3><i>No Pos Data Found</i></h3>
+		<a class="btn btn-lg btn-primary" data-toggle="modal" data-target="#addPos">Add POS</a>
+
+		<div class="modal  fade" id="addPos" tabindex="-1" role="dialog" aria-labelledby="addPosTitle" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<form class="form-horizontal" method="POST">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+							<h4 class="modal-title" id="addPosTitle">Add POS to {{ moon.name }}</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label class="col-md-2 control-label" for="type">Tower Type</label>
+								<div class="col-md-10">
+									<select class="form-control" id="type" name="type">
+										{% for type in postypes %}
+										<option value="{{ type.id }}">{{ type.name }}</option>
+										{% endfor %}
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label" for="corp">Corp Ticker</label>
+								<div class="col-md-10">
+									<input type="text" maxlength="5" class="form-control" id="corp" name="corp" placeholder="i.e. SCRAF, SNIGG, B0RT, GEWNS...">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label" for="alliance-info">Corp/Alliance</label>
+								<div class="col-md-10">
+									<input type="text" class="form-control" id="alliance-info" name="alliance-info" value="Please type a corp ticker" disabled>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+							<button type="submit" class="btn btn-primary">Add POS</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	{% endif %}
+{% endblock %}
+{% block endjs %}
+	<script type="text/javascript">
+		$('#corp').on('input propertychange paste', function() {
+			$.ajax({
+				type: "POST",
+				url: "/api/v1/json/corp",
+				data: {ticker: $('#corp').val()},
+				success: function(data) {
+					var info = data['corp']['name'] + " [" + data['corp']['ticker'] + "]";
+
+					if ("alliance" in data['corp']) {
+						info += " / " + data['corp']['alliance']['name'] + " <" + data['corp']['alliance']['ticker'] + ">";
+					} else {
+						info += " / None";
+					}
+
+                                        $('#alliance-info').val(info);
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown){
+					$('#alliance-info').val('Corp Ticker Unknown to Nexus');
+				},
+				dataType: "json"
+			});
+		});
+	</script>
+{% endblock %}

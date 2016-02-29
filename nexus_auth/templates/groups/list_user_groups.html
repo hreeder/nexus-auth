@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Your Groups{% endblock %}
+{% block header %}Your Groups{% endblock %}
+
+{% block main %}
+{% for category in categories %}
+<h3>{{ category.name }}</h3>
+<table class="table table-bordered table-striped table-hover tablesorter">
+	<thead>
+		<tr>
+			<th class="col-sm-2">Name</th>
+			<th class="col-sm-7">Description</th>
+			<th class="col-sm-1">Status</th>
+			<th class="col-sm-2">Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for group in groups %}
+			{% if group.group.category.id == category.id %}
+			<tr>
+				<td>{{ group.group.name }}</td>
+				<td>{{ group.group.description }}</td>
+				<td>
+				{% if group.group_admin %}
+					Admin
+				{% else %}
+					Member
+				{% endif %}
+				</td>
+				<td>
+					{% if group.group_admin or current_user.is_admin() %}
+					<a href="/groups/admin/{{ group.group.id }}" class="btn btn-info btn-xs">Admin</a>
+					{% endif %}
+					{% if group.group.leavable %}
+					<a href="/groups/leave/{{ group.group.id }}" class="btn btn-danger btn-xs">Leave</a>
+					{% endif %}
+				</td>
+			</tr>
+			{% endif %}
+		{% endfor %}
+</table>
+{% endfor %}
+
+{% if pending %}
+<hr>
+<h2>Pending Groups</h2>
+<table class="table table-bordered table-striped table-hover tablesorter">
+        <thead>
+                <tr>
+                        <th class="col-sm-2">Name</th>
+                        <th class="col-sm-7">Description</th>
+                        <th class="col-sm-1">Status</th>
+                        <th class="col-sm-2">Actions</th>
+                </tr>
+        </thead>
+        <tbody>
+                {% for group in pending %}
+                        <tr>
+                                <td>{{ group.group.name }}</td>
+                                <td>{{ group.group.description }}</td>
+                                <td>Pending</td>
+                                <td>
+                                        {% if group.group_admin or current_user.is_admin() %}
+                                        <a href="/groups/admin/{{ group.group.id }}" class="btn btn-info btn-xs">Admin</a>
+                                        {% endif %}
+                                        {% if group.group.leavable %}
+                                        <a href="/groups/leave/{{ group.group.id }}" class="btn btn-danger btn-xs">Withdraw</a>
+                                        {% endif %}
+                                </td>
+                        </tr>
+                {% endfor %}
+</table>
+{% endif %}
+{% endblock %}

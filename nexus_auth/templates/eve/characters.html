@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Characters{% endblock %}
+{% block header %}Your Characters{% endblock %}
+
+{% block main %}
+	{% if characters %}
+		<table class="table table-bordered table-hover table-striped tablesorter">
+			<thead>
+				<tr>
+					<th>Name</th>
+					<th>Corporation</th>
+					<th>Alliance</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for character in characters %}
+				<tr>
+					<td>{{ character.name }}</td>
+					<td><a href="/eve/corp/{{ character.corp.id }}">{{ character.corp.name }}</a></td>
+					<td><a href="/eve/alliance/{{ character.corp.alliance.id }}">{{ character.corp.alliance.name }}</a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% else %}
+		<i>You have no characters</i>
+	{% endif %}
+{% endblock %}

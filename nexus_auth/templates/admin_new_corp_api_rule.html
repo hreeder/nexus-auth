@@ -1,0 +1,37 @@
+{% extends "adminbase.html" %}
+{% block title %}New Corp API Rule{% endblock %}
+{% block header %}New Corp API Rule{% endblock %}
+
+{% block admincontrols %}
+<a href="/admin/corpapirules/new" class="btn btn-primary">New Rule</a>
+{% endblock %}
+
+{% block main %}
+<form action method="POST" class="form-horizontal">
+	<div class="form-group">
+		<label for="corp" class="col-lg-2 control-label">Corporation</label>
+		<div class="col-lg-10">
+			<select class="form-control" id="corp" name="corp">
+				{% for corp in corps %}
+				<option value="{{ corp.id }}">{{ corp.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="group" class="col-lg-2 control-label">Group</label>
+		<div class="col-lg-10">
+			<select class="form-control" id="group" name="group">
+				{% for group in groups %}
+				<option value="{{ group.id }}">{{ group.name }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-lg-10 col-lg-offset-2">
+			<input type="submit" class="btn btn-primary btn-block" value="Create Rule">
+		</div>
+	</div>
+</form>
+{% endblock %}

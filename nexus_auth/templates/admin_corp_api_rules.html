@@ -1,0 +1,30 @@
+{% extends "adminbase.html" %}
+{% block title %}Corp API Rules{% endblock %}
+{% block header %}All Corp API Rules{% endblock %}
+
+{% block admincontrols %}
+<a href="/admin/corpapirules/new" class="btn btn-primary">New Rule</a>
+{% endblock %}
+
+{% block main %}
+<table class="table table-bordered table-striped table-hover tablesorter">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Corp</th>
+			<th>Group</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for rule in rules %}
+		<tr>
+			<td>{{ rule.id }}</td>
+			<td>{{ rule.get_corp().name }}</td>
+			<td>{{ rule.get_group().name }}</td>
+			<td></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Supers{% endblock %}
+{% block header %}Known Supercapitals ({{ supers|length }}){% endblock %}
+
+{% block main %}
+<table class="table table-bordered table-striped table-hover tablesorter">
+	<thead>
+		<tr>
+			<th>Owner</th>
+			<th>Pilot</th>
+			<th>Corp</th>
+			<th>Alliance</th>
+			<th>Ship Type</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for super in supers %}
+		<tr>
+			<td>{{ super.get_owner().username }}</td>
+			<td>{{ super.name }}</td>
+			<td>{{ super.corp.name }}</td>
+			<td>{{ super.corp.alliance.name }}</td>
+			<td>{{ super.lastKnownShip|itemid2name }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% endblock %}
